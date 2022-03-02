@@ -1,0 +1,64 @@
+All of the questions in this quiz refer to the open source Chinook Database. Please familiarize yourself with the ER diagram in order to familiarize yourself with the table and column names in order to write accurate queries and get the appropriate answers.
+
+1) Pull a list of customer ids with the customer’s full name, and address, along with combining their city and country together. Be sure to make a space in between these two and make it UPPER CASE. (e.g. LOS ANGELES USA)
+
+SELECT
+Customerid,
+FirstName ||' '||LastName|| ' ' AS FullName,
+Address,
+UPPER (City ||' '||Country||' ') AS CityCountry
+FROM customers
+
+2) Create a new employee user id by combining the first 4 letters of the employee’s first name with the first 2 letters of the employee’s last name. Make the new field lower case and pull each individual step to show your work.
+
+SELECT
+employeeid,
+FirstName,
+LastName,
+SUBSTR(FirstName,1,4) as sub1,
+SUBSTR(LastName,1,2) as sub2,
+LOWER (SUBSTR(FirstName,1,4)|| SUBSTR(LastName,1,2)) as USERID
+FROM employees
+
+3) Show a list of employees who have worked for the company for 15 or more years using the current date function. Sort by lastname ascending.
+
+SELECT 
+FirstName,
+LastName,
+HireDate,
+STRFTIME('%y', HireDate) as year,
+STRFTIME('%m', HireDate) as month,
+STRFTIME('%d', HireDate) as date,
+DATE ('%y %m %d','now')
+FROM Employees
+
+4) Profiling the Customers table, answer the following question.
+SELECT
+Phone,
+FirstName
+FROM customers
+WHERE Phone IS NULL
+
+5) Find the cities with the most customers and rank in descending order.
+
+SELECT
+City,
+Count (*)
+FROM customers
+GROUP BY city
+ORDER BY count(*) DESC
+
+6) Create a new customer invoice id by combining a customer’s invoice id with their first and last name while ordering your query in the following order: firstname, lastname, and invoiceID.
+
+SELECT
+FirstName,
+LastName,
+invoiceid,
+FirstName || LastName || invoiceid AS new_inv_id
+FROM invoices i INNER JOIN customers c ON i.customerid=c.customerid
+ORDER BY FirstName, LastName, new_inv_id
+
+
+
+
+
